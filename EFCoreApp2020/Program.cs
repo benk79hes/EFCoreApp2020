@@ -245,7 +245,9 @@ namespace EFCoreApp2020
             Console.WriteLine("Bookings:");
             using (var ctx = new WWWingsContext())
             {
-                var q = from b in ctx.BookingSet.Include(x => x.Passenger).Include(x => x.Flight) select b;
+                //var q = from b in ctx.BookingSet.Include(x => x.Passenger).Include(x => x.Flight) select b;
+                //var q = from b in ctx.BookingSet.Include("Passenger").Include("Flight") select b;
+                var q = from b in ctx.BookingSet select b;
 
                 // sélectionner et afficher tous les vols
                 foreach (Booking booking in q)

@@ -22,6 +22,7 @@ namespace EFCoreApp2020
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             builder.UseSqlServer(ConnectionString);
+            builder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
