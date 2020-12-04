@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EFCoreApp2020
 {
@@ -20,6 +21,14 @@ namespace EFCoreApp2020
 
         [Required]
         public short? Seats { get; set; }
+
+        [ForeignKey("PilotId")]
+        public virtual Pilot Pilot { get; set; }
+
+        public int PilotId { get; set; }
+
+        public virtual ICollection<Booking> BookingSet { get; set; }
+
 
         public Flight()
         {
