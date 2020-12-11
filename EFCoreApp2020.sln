@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreApp2020", "EFCoreApp2020\EFCoreApp2020.csproj", "{2CB2C027-3910-4920-8EB5-6D60F09E551D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreApp2020", "EFCoreApp2020\EFCoreApp2020.csproj", "{2CB2C027-3910-4920-8EB5-6D60F09E551D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSFlyWebAPI", "VSFlyWebAPI\VSFlyWebAPI.csproj", "{73E59D30-D563-4C5B-98A1-65DD6B4975A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestVSFly", "ConsoleTestVSFly\ConsoleTestVSFly.csproj", "{7D57BE72-DA23-4C62-9DCB-FEE2900E0DB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{2CB2C027-3910-4920-8EB5-6D60F09E551D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CB2C027-3910-4920-8EB5-6D60F09E551D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CB2C027-3910-4920-8EB5-6D60F09E551D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73E59D30-D563-4C5B-98A1-65DD6B4975A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E59D30-D563-4C5B-98A1-65DD6B4975A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E59D30-D563-4C5B-98A1-65DD6B4975A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73E59D30-D563-4C5B-98A1-65DD6B4975A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D57BE72-DA23-4C62-9DCB-FEE2900E0DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D57BE72-DA23-4C62-9DCB-FEE2900E0DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D57BE72-DA23-4C62-9DCB-FEE2900E0DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D57BE72-DA23-4C62-9DCB-FEE2900E0DB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

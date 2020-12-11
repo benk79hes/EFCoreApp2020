@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace EFCoreApp2020
 {
@@ -10,9 +11,7 @@ namespace EFCoreApp2020
 
 
         public int PassengerId { get; set; }
-
         public virtual Flight Flight { get; set; }
-
         public virtual Passenger Passenger { get; set; }
 
     }

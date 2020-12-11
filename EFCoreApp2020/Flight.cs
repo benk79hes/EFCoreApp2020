@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EFCoreApp2020
 {
@@ -22,6 +23,7 @@ namespace EFCoreApp2020
         [Required]
         public short? Seats { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("PilotId")]
         public virtual Pilot Pilot { get; set; }
 
