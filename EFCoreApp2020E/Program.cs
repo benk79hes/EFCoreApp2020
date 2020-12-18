@@ -52,7 +52,7 @@ namespace EFCoreApp2020E
 
             DeleteBookings();
 
-            DeleteFlights();
+            //DeleteFlights();
 
             printFlights();
 
@@ -236,7 +236,7 @@ namespace EFCoreApp2020E
             using (var ctx = new WWWingsContext())
             {
 
-                ctx.BookingSet.Add(new Booking { FlightNo = 1, PassengerID = 1 });
+                ctx.BookingSet.Add(new Booking { FlightNo = 2, PassengerID = 1 });
                 /*
                 Flight f = ctx.FlightSet.Find(1);
 

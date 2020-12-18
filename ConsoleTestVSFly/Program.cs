@@ -8,7 +8,13 @@ namespace ConsoleTestVSFly
         static void Main(string[] args)
         {
             var http = new HttpClient();
-            var client = new swaggerClient("https://localhost:44390/", http);
+            var client = new swaggerClient("https://localhost:44349/", http);
+            var listFlight = client.FlightsAllAsync() ;
+            
+            foreach (FlightM flight in listFlight)
+            {
+                Console.WriteLine(flight.Departure);
+            }
 
         }
     }
