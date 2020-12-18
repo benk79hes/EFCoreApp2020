@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EFCoreApp2020E;
+using VSFlyWebAPI.Extensions;
 
 namespace VSFlyWebAPI.Controllers
 {
@@ -28,11 +29,11 @@ namespace VSFlyWebAPI.Controllers
             List<Models.FlightM> listFlightM = new List<Models.FlightM>();
             foreach( Flight f in flightList)
             {
-                Models.FlightM fM = new Models.FlightM();
-                fM.Date = f.Date;
-                fM.Departure = f.Departure;
-                fM.Destination = f.Destination;
-                listFlightM.Add(fM);
+                if (f.Seats > 0)
+                {
+                    var fM = f.ConvertToFlightM();
+                    listFlightM.Add(fM);
+                }
             }
             return listFlightM;
         }
@@ -87,12 +88,7 @@ namespace VSFlyWebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Flight>> PostFlight(Models.FlightM flight)
         {
-            Flight f = new Flight();
-            f.Pilot = _context.PilotSet.Find(1);
-            f.Seats = 300;
-            f.Date = flight.Date;
-            f.Departure = flight.Departure;
-            f.Destination = flight.Destination;
+            var f = flight.ConvertToFlightEF();
             _context.FlightSet.Add(f);
             try
             {

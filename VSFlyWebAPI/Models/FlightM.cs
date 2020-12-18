@@ -14,6 +14,8 @@ namespace VSFlyWebAPI.Models
         public string Destination { get; set; }
         public DateTime Date { get; set; }
 
+        public short? Seats { get; set; }
+
 
     }
 }
