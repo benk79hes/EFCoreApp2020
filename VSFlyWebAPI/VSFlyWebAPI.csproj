@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFCoreApp2020\EFCoreApp2020.csproj" />
+    <ProjectReference Include="..\EFCoreApp2020E\EFCoreApp2020E.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreApp2020
+namespace EFCoreApp2020E
 {
     class Program
     {
@@ -20,38 +21,45 @@ namespace EFCoreApp2020
                 Console.WriteLine("exists already.");
 
             // on a la base de données
-
-            DeleteAllBookings();
-
-            DeleteAllPassengers();
-
-            NewPilots();
+            PrintFlightsWithJoin();
+            
+            DeleteBookings();
 
             NewPassengers();
 
-            //printFlightsWithJoin();
+            NewPilots();
 
-            //Console.WriteLine("---------------------------------");
-
-            // printFlightsWithArg();
+            printFlights();
 
             Console.WriteLine("---------------------------------");
 
-            // printFlightsWithLambda();
+            printFlightsWithArg();
+
+            Console.WriteLine("---------------------------------");
+
+            printFlightsWithLambda();
 
             NewFlights();
 
-            NewBookings();
-
-            printBookings();
+            NewBooking();
 
             // vérifier dans la base de données ou sélectionner et afficher tous les vols ici
-            //printFlights();
+            printFlights();
+
+            PrintBookings();
 
             UpdateFlights();
 
+            DeleteBookings();
+
             DeleteFlights();
+
+            printFlights();
+
+            PrintBookings();
         }
+
+       
 
         private static void NewPilots()
         {
@@ -69,39 +77,6 @@ namespace EFCoreApp2020
             }
         }
 
-        private static void NewPassengers()
-        {
-            using (var ctx = new WWWingsContext())
-            {
-                Passenger p1 = new Passenger { Surname = "Hello", GivenName = "Jean", Weight = 58 };
-
-                ctx.PassengerSet.Add(p1);
-
-                Passenger p2 = new Passenger { Surname = "World", GivenName = "Pierre", Weight = 84 };
-
-                ctx.PassengerSet.Add(p2);
-
-                ctx.SaveChanges();
-            }
-        }
-
-        private static void NewBookings()
-        {
-            using (var ctx = new WWWingsContext())
-            {
-                Flight f = ctx.FlightSet.Find(1);
-
-                foreach (Passenger p in ctx.PassengerSet)
-                {
-                    // explicit loading
-                    Booking b = new Booking { Flight = f, Passenger = p };
-                    ctx.BookingSet.Add(b);
-                }
-
-                ctx.SaveChanges();
-            }
-        }
-
         private static void DeleteFlights()
         {
             using (var ctx = new WWWingsContext())
@@ -110,7 +85,7 @@ namespace EFCoreApp2020
                 // ...
                 int key = (from flight in ctx.FlightSet select flight.FlightNo).Max();
 
-                Console.WriteLine("supprime : {0}", key);
+                Console.WriteLine("supprime : {0}", key) ;
 
                 Flight f = ctx.FlightSet.Find(key);
 
@@ -120,29 +95,15 @@ namespace EFCoreApp2020
             }
         }
 
-        private static void DeleteAllBookings()
-        {
-            using (var ctx = new WWWingsContext())
-            {
-                ctx.Database.ExecuteSqlRaw("TRUNCATE TABLE [BookingSet]");
-            }
-        }
-
-        private static void DeleteAllPassengers()
-        {
-            using (var ctx = new WWWingsContext())
-            {
-                ctx.Database.ExecuteSqlRaw("DELETE FROM [PassengerSet]");
-            }
-        }
-
         private static void UpdateFlights()
         {
             using (var ctx = new WWWingsContext())
             {
                 // modifier
                 // ...
-                Flight f = ctx.FlightSet.First();
+                int key = (from flight in ctx.FlightSet select flight.FlightNo).Max();
+
+                Flight f = ctx.FlightSet.Find(key);
 
                 f.Seats += 1;
 
@@ -157,17 +118,12 @@ namespace EFCoreApp2020
                 // insérer
                 Console.WriteLine("Insérer un nouvel avion : ");
                 // un simple objet en C#
-
-                Pilot p = ctx.PilotSet.Find(1);
                 Flight f = new Flight { Departure = "GVA", Destination = "LAX", Seats = 300 };
-                f.Pilot = p;
 
-                Flight f2 = new Flight { Departure = "LAX", Destination = "GVA", Seats = 300 };
-                f2.Pilot = p;
+                f.Pilot = ctx.PilotSet.Find(1);
 
                 // on passe par le context pour accéder à la base de données
                 ctx.FlightSet.Add(f);
-                ctx.FlightSet.Add(f2);
 
                 // on persiste le changement dans la base de données
                 ctx.SaveChanges();
@@ -204,6 +160,20 @@ namespace EFCoreApp2020
             }
         }
 
+        private static void PrintFlightsWithJoin() {
+            using (var ctx = new WWWingsContext())
+            {
+                var q = from f in ctx.FlightSet.Include(x => x.Pilot)
+                        select f;
+
+                foreach (Flight flight in q)
+                {
+                    Console.WriteLine("{0} {1} {2} {3}",
+                        flight.Date, flight.Destination, flight.Seats, flight.Pilot.Surname);
+                }
+            }
+        }
+
         private static void printFlights()
         {
             // on crée le contexte localement
@@ -212,50 +182,90 @@ namespace EFCoreApp2020
                 // sélectionner et afficher tous les vols
                 foreach (Flight flight in ctx.FlightSet)
                 {
-                    // explicit loading
-                    ctx.Entry(flight).Reference(x => x.Pilot).Load();
 
-                    Console.WriteLine("{0} {1} {2} {3}", 
+                    // activer le lazy loading, c'est fait dans WWWingsContext.cs
+
+                    //// explicit loading
+                    //ctx.Entry(flight).Reference(x => x.Pilot).Load();
+
+                    Console.WriteLine("{0} {1} {2} {3}",
                         flight.Date, flight.Destination, flight.Seats, flight.Pilot.Surname);
                 }
             } // le contexte est libéré
         }
 
-
-        private static void printFlightsWithJoin()
+        public static void NewPassengers()
         {
-            // on crée le contexte localement
             using (var ctx = new WWWingsContext())
             {
-                var q = from f in ctx.FlightSet.Include(x => x.Pilot) select f;
+                Passenger p1 = new Passenger() { GivenName = "Igor", Weight = 9 };
+                ctx.Add(p1);
 
-                // sélectionner et afficher tous les vols
-                foreach (Flight flight in q)
-                {
-                    Console.WriteLine("{0} {1} {2} {3}", 
-                        flight.Date, flight.Destination, flight.Seats, flight.Pilot.Surname);
-                }
-            } // le contexte est libéré
+                Passenger p2 = new Passenger() { GivenName = "Toto", Weight = 10 };
+                ctx.Add(p2);
+
+                Passenger p3 = new Passenger() { GivenName = "Anne", Weight = 8 };
+                ctx.Add(p3);
+
+                Passenger p4 = new Passenger() { GivenName = "Sonia", Weight = 6 };
+                ctx.Add(p4);
+
+
+                ctx.SaveChanges();
+            }
         }
 
-        private static void printBookings()
+        private static void PrintBookings()
         {
-            // on crée le contexte localement
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Bookings:");
+            Console.WriteLine("--------------------------------------------------------");
+
             using (var ctx = new WWWingsContext())
             {
-                //var q = from b in ctx.BookingSet.Include(x => x.Passenger).Include(x => x.Flight) select b;
-                //var q = from b in ctx.BookingSet.Include("Passenger").Include("Flight") select b;
-                var q = from b in ctx.BookingSet select b;
+                var q = from b in ctx.BookingSet.Include("Flight").Include("Passenger")
+                        select b;
 
-                // sélectionner et afficher tous les vols
-                foreach (Booking booking in q)
-                {
-                    Console.WriteLine("Flight: {0} {1} - Name: {2}, {3}Kg", 
-                        booking.Flight.Date, booking.Flight.Destination, booking.Passenger.Surname, booking.Passenger.Weight);
-                }
-            } // le contexte est libéré
+                foreach (Booking b in q)
+                    Console.WriteLine("{0} {1} {2}", b.Flight.Date,
+                                                    b.Flight.Destination,
+                                                    b.Passenger.GivenName);
+            }
         }
+
+        public static void NewBooking()
+        {
+            using (var ctx = new WWWingsContext())
+            {
+
+                ctx.BookingSet.Add(new Booking { FlightNo = 1, PassengerID = 1 });
+                /*
+                Flight f = ctx.FlightSet.Find(1);
+
+                ctx.Entry(f).Collection(x => x.BookingSet).Load();
+
+                f.BookingSet.Add(new Booking { PassengerID = 2 });
+
+                // have a passenger
+                Passenger p = ctx.PassengerSet.Find(3);
+
+                ctx.Entry(p).Collection(x => x.BookingSet).Load();
+
+                p.BookingSet.Add(new Booking { FlightNo = 1 });
+
+                ctx.BookingSet.Add(new Booking { Flight = f, Passenger = ctx.PassengerSet.Find(4) });
+                */
+                ctx.SaveChanges();
+            }
+        }
+
+        private static void DeleteBookings()
+        {
+            using (var ctx = new WWWingsContext())
+            {
+                ctx.BookingSet.RemoveRange(ctx.BookingSet);
+
+                ctx.SaveChanges();
+            }
+        }
+
     }
 }

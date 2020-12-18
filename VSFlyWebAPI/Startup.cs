@@ -27,13 +27,12 @@ namespace VSFlyWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EFCoreApp2020.WWWingsContext>(opt => opt.UseSqlServer(EFCoreApp2020.WWWingsContext.ConnectionString, null));
+            services.AddDbContext<EFCoreApp2020E.WWWingsContext>(opt => opt.UseSqlServer(EFCoreApp2020E.WWWingsContext.ConnectionString, null));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VSFlyWebAPI", Version = "v1" });
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

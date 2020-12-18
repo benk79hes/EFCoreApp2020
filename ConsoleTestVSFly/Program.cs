@@ -8,7 +8,8 @@ namespace ConsoleTestVSFly
         static void Main(string[] args)
         {
             var http = new HttpClient();
-            //var client = new 
+            var client = new swaggerClient("https://localhost:44390/", http);
+
         }
     }
 }

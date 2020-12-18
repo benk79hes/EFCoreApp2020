@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace EFCoreApp2020
+namespace EFCoreApp2020E
 {
     public class Person
     {
