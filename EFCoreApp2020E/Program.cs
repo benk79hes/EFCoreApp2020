@@ -10,26 +10,34 @@ namespace EFCoreApp2020E
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            Console.WriteLine("VS Fly system has been launched");
 
             var ctx = new WWWingsContext();
 
+            Console.WriteLine("Checking if database exists...");
             var e = ctx.Database.EnsureCreated();
 
-            if (e)
-                Console.WriteLine("Database has been created !");
-            else
-                Console.WriteLine("exists already.");
+            if (!e)
+            {
+                Console.WriteLine("Database already exists, you can use it from Web API project");
+                return;
+            }
+
+            Console.WriteLine("Database has been created, populating with test data");
+
+
 
             // on a la base de données
-            PrintFlightsWithJoin();
+            // PrintFlightsWithJoin();
             
-            DeleteBookings();
+            // DeleteBookings();
 
             NewPassengers();
 
             NewPilots();
 
-            printFlights();
+            /*
+             * printFlights();
 
             Console.WriteLine("---------------------------------");
 
@@ -38,28 +46,26 @@ namespace EFCoreApp2020E
             Console.WriteLine("---------------------------------");
 
             printFlightsWithLambda();
+            */
 
             NewFlights();
 
             NewBooking();
 
             // vérifier dans la base de données ou sélectionner et afficher tous les vols ici
-            printFlights();
+            //printFlights();
 
-            PrintBookings();
+            //PrintBookings();
 
-            UpdateFlights();
+            //printFlights();
 
-            DeleteBookings();
+            //PrintBookings();
 
-            //DeleteFlights();
+            Console.WriteLine("Database populated with test data");
 
-            printFlights();
-
-            PrintBookings();
         }
 
-       
+
 
         private static void NewPilots()
         {
@@ -113,17 +119,19 @@ namespace EFCoreApp2020E
 
         private static void NewFlights()
         {
+            
             using (var ctx = new WWWingsContext())
             {
                 // insérer
-                Console.WriteLine("Insérer un nouvel avion : ");
+                // Console.WriteLine("Insérer un nouvel avion : ");
                 // un simple objet en C#
-                Flight f = new Flight { Departure = "GVA", Destination = "LAX", Seats = 300, BasePrice = 200 };
+                // Flight f = new Flight { Departure = "GVA", Destination = "LAX", Seats = 300, BasePrice = 200 };
 
-                f.Pilot = ctx.PilotSet.Find(1);
+                // f.Pilot = ctx.PilotSet.Find(1);
 
                 // on passe par le context pour accéder à la base de données
-                ctx.FlightSet.Add(f);
+                ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "LAX", Seats = 300, BasePrice = 200, PilotId = 1 });
+                ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "Lausanne", Seats = 2, BasePrice = 50, PilotId = 2 });
 
                 // on persiste le changement dans la base de données
                 ctx.SaveChanges();
@@ -235,24 +243,7 @@ namespace EFCoreApp2020E
         {
             using (var ctx = new WWWingsContext())
             {
-
-                ctx.BookingSet.Add(new Booking { FlightNo = 2, PassengerID = 1 });
-                /*
-                Flight f = ctx.FlightSet.Find(1);
-
-                ctx.Entry(f).Collection(x => x.BookingSet).Load();
-
-                f.BookingSet.Add(new Booking { PassengerID = 2 });
-
-                // have a passenger
-                Passenger p = ctx.PassengerSet.Find(3);
-
-                ctx.Entry(p).Collection(x => x.BookingSet).Load();
-
-                p.BookingSet.Add(new Booking { FlightNo = 1 });
-
-                ctx.BookingSet.Add(new Booking { Flight = f, Passenger = ctx.PassengerSet.Find(4) });
-                */
+                ctx.BookingSet.Add(new Booking { FlightNo = 1, PassengerID = 1 });
                 ctx.SaveChanges();
             }
         }
