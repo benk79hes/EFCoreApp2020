@@ -31,7 +31,7 @@ namespace VSFlyWebAPI.Extensions
              * @TODO  Remove ? 
              **/
             fM.Seats = f.Seats;
-            fM.SeatPrice = f.BasePrice;
+            fM.AvailableSeats = (short)(f.Seats - f.BookingSet.Count);
 
             return fM;
         }

@@ -19,5 +19,26 @@ namespace VSFlyWebAPI.Models
 
         public double SeatPrice { get; set; }
 
+        public double GetPrice()
+        {
+
+            if (AvailableSeats > Seats * 80 / 100)
+            {
+                return SeatPrice * 150 / 100;
+            }
+
+            if (AvailableSeats < Seats / 2 && DateTime.Now.AddMonths(1) > Date)
+            {
+                return SeatPrice * 70 / 100;
+            }
+           
+            if (AvailableSeats < Seats * 20 / 100 && DateTime.Now.AddMonths(2) > Date)
+            {
+                return SeatPrice * 80 / 100;
+            }
+            
+            return SeatPrice;
+
+        }
     }
 }

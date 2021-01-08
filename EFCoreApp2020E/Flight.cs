@@ -29,5 +29,7 @@ namespace EFCoreApp2020E
 
         public Flight() { 
         }
+
+       
     }
 }
