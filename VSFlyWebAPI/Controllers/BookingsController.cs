@@ -75,26 +75,34 @@ namespace VSFlyWebAPI.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult> PostBooking(Models.BookingM bM)
         {
-            _context.BookingSet.Add(booking);
+            Console.WriteLine(bM);
+             Passenger p = new Passenger { Surname = bM.Surname, GivenName = bM.GivenName, Weight = bM.Weight };
+
+            _context.PassengerSet.Add(p);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (BookingExists(booking.FlightNo))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
+           
+ 
+            Booking b = new Booking { FlightNo = bM.FlightNo, PassengerID = p.PersonID, PricePaid = bM.Price };
+            _context.BookingSet.Add(b);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            } 
 
-            return CreatedAtAction("GetBooking", new { id = booking.FlightNo }, booking);
+            return NoContent();
         }
 
 

@@ -27,14 +27,36 @@ namespace VSFlyWebAPI.Extensions
             fM.Date = f.Date;
             fM.Departure = f.Departure;
             fM.Destination = f.Destination;
+            /**
+             * @TODO  Remove ? 
+             **/
             fM.Seats = f.Seats;
-
-            //calculer nbre de places restantes
-            
-
-            //Calculer le prix
+            fM.SeatPrice = f.BasePrice;
 
             return fM;
         }
+
+        public static Models.BookingM ConvertToBookingM(this EFCoreApp2020E.Booking b) {
+
+            Models.BookingM bM = new Models.BookingM();
+            bM.Surname = b.Passenger.Surname;
+            bM.GivenName = b.Passenger.GivenName;
+            bM.Weight = b.Passenger.Weight;
+            bM.FlightNo = b.FlightNo;
+            bM.Price = b.PricePaid;
+
+            return bM;
+        }
+
+        /*
+        public static EFCoreApp2020E.Booking ConvertToBookingEF(this Models.BookingM bM) {
+
+            EFCoreApp2020E.Booking b = new EFCoreApp2020E.Booking();
+
+            b.FlightNo = bM.FlightNo;
+            b.PassengerID
+
+            return b;
+        } */
     }
 }
