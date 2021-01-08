@@ -29,6 +29,11 @@ namespace VSFlyWebAPI.Extensions
             fM.Destination = f.Destination;
             fM.Seats = f.Seats;
 
+            //calculer nbre de places restantes
+            
+
+            //Calculer le prix
+
             return fM;
         }
     }

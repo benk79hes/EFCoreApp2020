@@ -18,6 +18,8 @@ namespace EFCoreApp2020E
         public DateTime Date { get; set; }
         [Required]
         public short? Seats { get; set; }
+        [Required]
+        public double BasePrice { get; set; }
 
         [ForeignKey("PilotId")]
         public virtual Pilot Pilot { get; set; }

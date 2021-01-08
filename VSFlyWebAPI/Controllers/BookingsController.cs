@@ -97,21 +97,7 @@ namespace VSFlyWebAPI.Controllers
             return CreatedAtAction("GetBooking", new { id = booking.FlightNo }, booking);
         }
 
-        // DELETE: api/Bookings/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBooking(int id)
-        {
-            var booking = await _context.BookingSet.FindAsync(id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
 
-            _context.BookingSet.Remove(booking);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
 
         private bool BookingExists(int id)
         {

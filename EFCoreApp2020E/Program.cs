@@ -118,7 +118,7 @@ namespace EFCoreApp2020E
                 // insérer
                 Console.WriteLine("Insérer un nouvel avion : ");
                 // un simple objet en C#
-                Flight f = new Flight { Departure = "GVA", Destination = "LAX", Seats = 300 };
+                Flight f = new Flight { Departure = "GVA", Destination = "LAX", Seats = 300, BasePrice = 200 };
 
                 f.Pilot = ctx.PilotSet.Find(1);
 
