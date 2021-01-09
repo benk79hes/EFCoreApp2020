@@ -19,7 +19,7 @@ namespace VSFlyWebAPI.Controllers
         {
             _context = context;
         }
-
+        /*
         // GET: api/Bookings
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Booking>>> GetBookingSet()
@@ -71,6 +71,7 @@ namespace VSFlyWebAPI.Controllers
 
             return NoContent();
         }
+        */
 
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -78,7 +79,7 @@ namespace VSFlyWebAPI.Controllers
         public async Task<ActionResult> PostBooking(Models.BookingM bM)
         {
             Console.WriteLine(bM);
-             Passenger p = new Passenger { Surname = bM.Surname, GivenName = bM.GivenName, Weight = bM.Weight };
+            Passenger p = new Passenger { Surname = bM.Surname, GivenName = bM.GivenName, Weight = bM.Weight };
 
             _context.PassengerSet.Add(p);
             try

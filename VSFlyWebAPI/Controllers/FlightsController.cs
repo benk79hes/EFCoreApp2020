@@ -41,9 +41,10 @@ namespace VSFlyWebAPI.Controllers
             return listFlightM;
         }
 
+        /*
         // GET: api/Flights/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Flight>> GetFlight(int id)
+        public async Task<ActionResult<Models.FlightM>> GetFlight(int id)
         {
             var flight = await _context.FlightSet.FindAsync(id);
 
@@ -52,8 +53,38 @@ namespace VSFlyWebAPI.Controllers
                 return NotFound();
             }
 
-            return flight;
+            return flight.ConvertToFlightM();
+        }
+        */
+
+        // GET: api/Flights/5
+        [HttpGet("{id}/CurrentSalePrice")]
+        public async Task<ActionResult<double>> GetFlightCurrentSalePrice(int id)
+        {
+            var flight = await _context.FlightSet.FindAsync(id);
+
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            //return flight.ConvertToFlightM();
+            return 2.0;
         }
 
+        // GET: api/Flights/5
+        [HttpGet("{id}/TotalSalePrice")]
+        public async Task<ActionResult<double>> GetFlightTotalSalePrice(int id)
+        {
+            var flight = await _context.FlightSet.FindAsync(id);
+
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            //return flight.ConvertToFlightM();
+            return 2.0;
+        }
     }
 }

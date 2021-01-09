@@ -130,7 +130,8 @@ namespace EFCoreApp2020E
                 // f.Pilot = ctx.PilotSet.Find(1);
 
                 // on passe par le context pour accéder à la base de données
-                ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "LAX", Seats = 300, BasePrice = 200, PilotId = 1 });
+                ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "LAX", Seats = 50, BasePrice = 200, PilotId = 1 });
+                ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "LAX", Seats = 20, BasePrice = 150, PilotId = 1 });
                 ctx.FlightSet.Add(new Flight { Departure = "GVA", Destination = "Lausanne", Seats = 2, BasePrice = 50, PilotId = 2 });
 
                 // on persiste le changement dans la base de données
