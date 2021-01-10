@@ -58,10 +58,25 @@ namespace VSFlyWebAPI.Controllers
 
         // GET api/<DestinationsController>/5
         [HttpGet("Bookings/{destination}")]
-        public async Task<ActionResult<double>> GetDestinationBookings(string destination)
+        public async Task<ActionResult<IEnumerable<Models.TicketSold>>> GetDestinationBookings(string destination)
         {
+            List <Models.TicketSold> tickets = new List<Models.TicketSold>();
+            foreach (Flight f in _context.FlightSet)
+            {
+                if (f.Destination.Equals(destination))
+                {
+                    foreach (Booking b in f.BookingSet) {
+                        Models.TicketSold ticket = new Models.TicketSold();
+                        ticket.FlightNo = f.FlightNo;
+                        ticket.Surname = b.Passenger.Surname;
+                        ticket.GivenName = b.Passenger.GivenName;
+                        ticket.PricePaid = b.PricePaid;
 
-            return 25.5;
+                        tickets.Add(ticket);
+                    }
+                }
+            }
+                    return tickets;
         }
         /*
         // POST api/<DestinationsController>
