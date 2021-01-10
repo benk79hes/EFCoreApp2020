@@ -41,8 +41,19 @@ namespace VSFlyWebAPI.Controllers
         [HttpGet("AveragePrice/{destination}")]
         public async Task<ActionResult<double>> GetDestinationAveragePrice(string destination)
         {
+           
+            double totalPrice=0;
+            int count=0;
+            foreach (Flight f in _context.FlightSet) {
+                if (f.Destination.Equals(destination)){
+                    foreach (Booking b in await f.BookingSet) {
+                        totalPrice += b.PricePaid;
+                        count++;
+                    }
+                }
+            }
 
-            return 25.5;
+            return (totalPrice/count);
         }
 
         // GET api/<DestinationsController>/5
