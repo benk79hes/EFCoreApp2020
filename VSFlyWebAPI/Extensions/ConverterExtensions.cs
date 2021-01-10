@@ -32,6 +32,7 @@ namespace VSFlyWebAPI.Extensions
              **/
             fM.Seats = f.Seats;
             fM.AvailableSeats = (short)(f.Seats - f.BookingSet.Count);
+            fM.SeatPrice = f.BasePrice;
 
             return fM;
         }

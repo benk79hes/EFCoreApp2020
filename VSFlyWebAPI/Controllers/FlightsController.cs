@@ -68,8 +68,9 @@ namespace VSFlyWebAPI.Controllers
                 return NotFound();
             }
 
-            //return flight.ConvertToFlightM();
-            return 2.0;
+            Models.FlightM fM = flight.ConvertToFlightM();
+            return fM.GetPrice();
+            //return 2.0;
         }
 
         // GET: api/Flights/5
@@ -82,9 +83,13 @@ namespace VSFlyWebAPI.Controllers
             {
                 return NotFound();
             }
+            double totalPrice = 0;
+            foreach (Booking b in flight.BookingSet) {
+                totalPrice += b.PricePaid;
+            }
 
             //return flight.ConvertToFlightM();
-            return 2.0;
+            return totalPrice;
         }
     }
 }
