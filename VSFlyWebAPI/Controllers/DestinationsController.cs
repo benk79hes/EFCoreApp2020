@@ -46,7 +46,7 @@ namespace VSFlyWebAPI.Controllers
             int count=0;
             foreach (Flight f in _context.FlightSet) {
                 if (f.Destination.Equals(destination)){
-                    foreach (Booking b in await f.BookingSet) {
+                    foreach (Booking b in f.BookingSet) {
                         totalPrice += b.PricePaid;
                         count++;
                     }
