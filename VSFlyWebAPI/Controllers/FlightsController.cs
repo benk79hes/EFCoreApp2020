@@ -77,19 +77,18 @@ namespace VSFlyWebAPI.Controllers
         [HttpGet("{id}/TotalSalePrice")]
         public async Task<ActionResult<double>> GetFlightTotalSalePrice(int id)
         {
-            var flight = await _context.FlightSet.FindAsync(id);
 
-            if (flight == null)
-            {
-                return NotFound();
-            }
-            double totalPrice = 0;
-            foreach (Booking b in flight.BookingSet) {
-                totalPrice += b.PricePaid;
-            }
+            var query = from b in _context.BookingSet
+                        where b.FlightNo == id
+                        group b by b.FlightNo into r
+                        select new
+                        {
+                            Sum = r.Sum(b => b.PricePaid)
+                        };
 
-            //return flight.ConvertToFlightM();
-            return totalPrice;
+            var res = await query.FirstAsync();
+
+            return res.Sum;
         }
     }
 }
