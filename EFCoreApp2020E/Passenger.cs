@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace EFCoreApp2020E
 {
@@ -8,7 +6,6 @@ namespace EFCoreApp2020E
     {
         public int Weight { get; set; }
 
-        // Flight <---------------- Booking -------------------> Passenger
         public virtual ICollection<Booking> BookingSet { get; set; }
     }
 }

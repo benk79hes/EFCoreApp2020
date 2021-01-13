@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFCoreApp2020E;
+using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VSFlyWebAPI.Controllers
 {
@@ -15,86 +14,57 @@ namespace VSFlyWebAPI.Controllers
     {
         private readonly WWWingsContext _context;
 
+
         public DestinationsController(WWWingsContext context)
         {
             _context = context;
         }
-        /*
-        // GET: api/<DestinationsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
 
-        {
-            var r = _context.FlightSet.Select(element => new { Destination = element.Destination }).Distinct();
-
-            /*
-            foreach (var d in r)
-            {
-                Console.WriteLine("{0} {1} {2}", flight.Date, flight.Destination, flight.Seats);
-            }
-//            return await _context.BookingSet.ToListAsync();
-            // return new string[] { "value1", "value2" };
-            return r;
-        } */
 
         // GET api/<DestinationsController>/AveragePrice/LAX
         [HttpGet("AveragePrice/{destination}")]
         public async Task<ActionResult<double>> GetDestinationAveragePrice(string destination)
         {
-           
-            double totalPrice=0;
-            int count=0;
-            foreach (Flight f in _context.FlightSet) {
-                if (f.Destination.Equals(destination)){
-                    foreach (Booking b in f.BookingSet) {
-                        totalPrice += b.PricePaid;
-                        count++;
-                    }
-                }
+            double result;
+
+            var query = from f in _context.FlightSet
+                        join b in _context.BookingSet on f.FlightNo equals b.FlightNo
+                        select new
+                        {
+                            PricePaid = b.PricePaid,
+                            Destination = f.Destination
+                        };
+
+            try
+            {
+                result = await query.Where(x => x.Destination == destination).AverageAsync(x => x.PricePaid);
+            } catch
+            {
+                result = 0;
             }
 
-            return (totalPrice/count);
+            return result;
         }
 
-        // GET api/<DestinationsController>/5
+
+        // GET api/<DestinationsController>/Bookings/LAX
         [HttpGet("Bookings/{destination}")]
         public async Task<ActionResult<IEnumerable<Models.TicketSold>>> GetDestinationBookings(string destination)
         {
             List <Models.TicketSold> tickets = new List<Models.TicketSold>();
-            foreach (Flight f in _context.FlightSet)
-            {
-                if (f.Destination.Equals(destination))
-                {
-                    foreach (Booking b in f.BookingSet) {
-                        Models.TicketSold ticket = new Models.TicketSold();
-                        ticket.FlightNo = f.FlightNo;
-                        ticket.Surname = b.Passenger.Surname;
-                        ticket.GivenName = b.Passenger.GivenName;
-                        ticket.PricePaid = b.PricePaid;
 
-                        tickets.Add(ticket);
-                    }
-                }
-            }
-                    return tickets;
-        }
-        /*
-        // POST api/<DestinationsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+            var query = from f in _context.FlightSet
+                        join b in _context.BookingSet on f.FlightNo equals b.FlightNo
+                        join p in _context.PassengerSet on b.PassengerID equals p.PersonID
+                        where f.Destination == destination
+                        select new Models.TicketSold { 
+                            FlightNo = f.FlightNo,
+                            Surname = p.Surname,
+                            GivenName = p.GivenName,
+                            PricePaid = b.PricePaid
+                        };
 
-        // PUT api/<DestinationsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            return await query.ToListAsync();
         }
-
-        // DELETE api/<DestinationsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        } */
     }
 }

@@ -8,11 +8,15 @@ namespace EFCoreApp2020E
     public class WWWingsContext : DbContext
     {
         public DbSet<Flight> FlightSet { get; set; }
+       
         public DbSet<Pilot> PilotSet { get; set; }
+        
         public DbSet<Passenger> PassengerSet { get; set; }
+        
         public DbSet<Booking> BookingSet { get; set; }
 
         public static string ConnectionString { get; set; } = @"Server=(localDB)\MSSQLLocalDB;Database=WWWings_2021;Trusted_Connection=True;MultipleActiveResultSets=True;App=EFCoreApp2020E";
+        
         public WWWingsContext() { 
         }
 
@@ -38,9 +42,6 @@ namespace EFCoreApp2020E
                 .WithMany(x => x.BookingSet)
                 .HasForeignKey(x => x.PassengerID)
                 .OnDelete(DeleteBehavior.Restrict);
-
-
-
         }
     }
 }

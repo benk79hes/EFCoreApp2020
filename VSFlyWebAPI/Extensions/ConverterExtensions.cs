@@ -48,16 +48,5 @@ namespace VSFlyWebAPI.Extensions
 
             return bM;
         }
-
-        /*
-        public static EFCoreApp2020E.Booking ConvertToBookingEF(this Models.BookingM bM) {
-
-            EFCoreApp2020E.Booking b = new EFCoreApp2020E.Booking();
-
-            b.FlightNo = bM.FlightNo;
-            b.PassengerID
-
-            return b;
-        } */
     }
 }
