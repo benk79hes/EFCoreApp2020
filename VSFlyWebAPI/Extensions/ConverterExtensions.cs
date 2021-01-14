@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VSFlyWebAPI.Extensions
+﻿namespace VSFlyWebAPI.Extensions
 {
     public static class ConverterExtensions
     {

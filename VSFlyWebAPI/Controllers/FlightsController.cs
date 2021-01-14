@@ -31,10 +31,9 @@ namespace VSFlyWebAPI.Controllers
             {
                 var fM = f.ConvertToFlightM();
 
-                if (f.BookingSet.Count >= f.Seats) {
+                if (fM.AvailableSeats<=0) {
                     continue;
                 }
-
                 listFlightM.Add(fM);
                 
             }
