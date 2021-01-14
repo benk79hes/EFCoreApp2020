@@ -25,7 +25,7 @@ namespace VSFlyWebAPI.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> PostBooking(Models.BookingM bM)
+        public async Task<ActionResult> PostBooking(Models.Booking bM)
         {
             Console.WriteLine(bM);
             Passenger p = new Passenger { Surname = bM.Surname, GivenName = bM.GivenName, Weight = bM.Weight };

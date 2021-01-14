@@ -49,15 +49,15 @@ namespace VSFlyWebAPI.Controllers
 
         // GET api/<DestinationsController>/Bookings/LAX
         [HttpGet("Bookings/{destination}")]
-        public async Task<ActionResult<IEnumerable<Models.TicketSold>>> GetDestinationBookings(string destination)
+        public async Task<ActionResult<IEnumerable<Models.Ticket>>> GetDestinationBookings(string destination)
         {
-            List <Models.TicketSold> tickets = new List<Models.TicketSold>();
+            List <Models.Ticket> tickets = new List<Models.Ticket>();
 
             var query = from f in _context.FlightSet
                         join b in _context.BookingSet on f.FlightNo equals b.FlightNo
                         join p in _context.PassengerSet on b.PassengerID equals p.PersonID
                         where f.Destination == destination
-                        select new Models.TicketSold { 
+                        select new Models.Ticket { 
                             FlightNo = f.FlightNo,
                             Surname = p.Surname,
                             GivenName = p.GivenName,

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VSFlyWebAPI.Models
 {
-    public class BookingM
+    public class Booking
     {
         public int FlightNo { get; set; }
         public string Surname { get; set; }

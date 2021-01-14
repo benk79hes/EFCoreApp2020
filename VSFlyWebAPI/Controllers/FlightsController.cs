@@ -23,10 +23,10 @@ namespace VSFlyWebAPI.Controllers
 
         // GET: api/Flights
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.FlightM>>> GetFlightSet()
+        public async Task<ActionResult<IEnumerable<Models.Flight>>> GetFlightSet()
         {
             var flightList =  await _context.FlightSet.ToListAsync();
-            List<Models.FlightM> listFlightM = new List<Models.FlightM>();
+            List<Models.Flight> listFlightM = new List<Models.Flight>();
             foreach( Flight f in flightList)
             {
                 var fM = f.ConvertToFlightM();
@@ -53,7 +53,7 @@ namespace VSFlyWebAPI.Controllers
                 return NotFound();
             }
 
-            Models.FlightM fM = flight.ConvertToFlightM();
+            Models.Flight fM = flight.ConvertToFlightM();
             return fM.GetPrice();
         }
 

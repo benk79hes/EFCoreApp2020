@@ -7,7 +7,7 @@ namespace VSFlyWebAPI.Extensions
 {
     public static class ConverterExtensions
     {
-        public static EFCoreApp2020E.Flight ConvertToFlightEF(this Models.FlightM f) 
+        public static EFCoreApp2020E.Flight ConvertToFlightEF(this Models.Flight f) 
         {
             var refFlight = new EFCoreApp2020E.Flight();
             refFlight.FlightNo = f.FlightNo;
@@ -19,9 +19,9 @@ namespace VSFlyWebAPI.Extensions
             return refFlight;
         }
 
-        public static Models.FlightM ConvertToFlightM(this EFCoreApp2020E.Flight f) {
+        public static Models.Flight ConvertToFlightM(this EFCoreApp2020E.Flight f) {
 
-            Models.FlightM fM = new Models.FlightM();
+            Models.Flight fM = new Models.Flight();
             
             fM.FlightNo = f.FlightNo;
             fM.Date = f.Date;
@@ -37,9 +37,9 @@ namespace VSFlyWebAPI.Extensions
             return fM;
         }
 
-        public static Models.BookingM ConvertToBookingM(this EFCoreApp2020E.Booking b) {
+        public static Models.Booking ConvertToBookingM(this EFCoreApp2020E.Booking b) {
 
-            Models.BookingM bM = new Models.BookingM();
+            Models.Booking bM = new Models.Booking();
             bM.Surname = b.Passenger.Surname;
             bM.GivenName = b.Passenger.GivenName;
             bM.Weight = b.Passenger.Weight;
