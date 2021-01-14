@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EFCoreApp2020E;
+using VSFlyWebAPI.Extensions;
 
 namespace VSFlyWebAPI.Controllers
 {
@@ -22,9 +23,27 @@ namespace VSFlyWebAPI.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> PostBooking(Models.Booking bM)
+        public async Task<ActionResult<Models.BookingError>> PostBooking(Models.Booking bM)
         {
             Console.WriteLine(bM);
+
+            Flight f = _context.FlightSet.Find(bM.FlightNo);
+            if (f == null) {
+                return new Models.BookingError(404, "The flight was not find, please try again");           
+            }
+            Models.Flight fM = f.ConvertToFlightM();
+            if (fM.AvailableSeats <= 0) {
+                return new Models.BookingError(99, "The selected flight is already full");
+            }
+            if (fM.Date < DateTime.Now) {
+                return new Models.BookingError(36, "The selected flight is not available");
+            }
+            var calculatedPrice = fM.GetPrice();
+            Console.WriteLine(calculatedPrice);
+            if (!fM.GetPrice().Equals(bM.Price)) {
+                return new Models.BookingError(103, "The selected price does not match. Please retry the booking");
+            }
+
             Passenger p = new Passenger { Surname = bM.Surname, GivenName = bM.GivenName, Weight = bM.Weight };
 
             _context.PassengerSet.Add(p);
@@ -48,7 +67,7 @@ namespace VSFlyWebAPI.Controllers
                 throw;
             } 
 
-            return NoContent();
+            return new Models.BookingError(500, "The booking was successfully registered");
         }
     }
 }

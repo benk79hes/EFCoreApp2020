@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EFCoreApp2020E;
 using VSFlyWebAPI.Extensions;
+using System;
 
 namespace VSFlyWebAPI.Controllers
 {
@@ -27,11 +28,12 @@ namespace VSFlyWebAPI.Controllers
         {
             var flightList =  await _context.FlightSet.ToListAsync();
             List<Models.Flight> listFlightM = new List<Models.Flight>();
+
             foreach( Flight f in flightList)
             {
                 var fM = f.ConvertToFlightM();
 
-                if (fM.AvailableSeats<=0) {
+                if (fM.AvailableSeats<=0 || fM.Date<DateTime.Now) {
                     continue;
                 }
                 listFlightM.Add(fM);
